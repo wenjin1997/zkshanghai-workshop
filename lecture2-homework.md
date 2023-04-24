@@ -87,6 +87,8 @@ signal inv <-- in == 0 ? 0 : 1/in;
 
 [解决方案](https://github.com/iden3/circomlib/blob/master/circuits/comparators.circom#L37)
 
+答：判断两个数是否相等就是看这两个数的差是否为0，也就是用`in[0] - in[1]`作为IsZero的输入信号。代码见[IsEqual.circom](/lecture2/IsEqual.circom). 简洁点直接判断`in[0] - in[1]`是否为零，代码见[IsEqual2.circom](/lecture2/IsEqual2.circom).
+
 ### 选择器 Selector
 
 - 参数：`nChoices`
@@ -97,6 +99,17 @@ signal inv <-- in == 0 ? 0 : 1/in;
 
 [解决方案](https://github.com/darkforest-eth/circuits/blob/master/perlin/QuinSelector.circom)
 
+答：参考[解决方案](https://github.com/darkforest-eth/circuits/blob/master/perlin/QuinSelector.circom)，代码见[Selector.circom](/lecture2/Selector.circom). 思路是循环遍历下标，用i和index是否相等作选择器，如果i和index相等，选择器置1，不等置0。类似于下面这种思路：
+<img src="lecture2/img/for.png" width = "700" height = "350" alt="" align=center />
+最后再做累加。在[解决方案](https://github.com/darkforest-eth/circuits/blob/master/perlin/QuinSelector.circom)中先要求index必须在范围[0,nChoices)。
+```circom
+// Ensure that index < choices
+component lessThan = LessThan(4);
+lessThan.in[0] <== index;
+lessThan.in[1] <== choices;
+lessThan.out === 1;
+```
+但是本题中允许index越界，如果index越界，约束`lessThan.out === 1;`就不会满足。可以不加这个约束，如果index越界，就不会和遍历的每个下标相等，每次累加的都是0，最终累加结果也为0，将累加结果赋给`out`，输出0。
 ### 判负 IsNegative
 
 注意：信号是模 p（Babyjubjub 素数）的残基，并且没有`负`数模 p 的自然概念。 但是，很明显，当我们将`p-1`视为`-1`时，模运算类似于整数运算。
