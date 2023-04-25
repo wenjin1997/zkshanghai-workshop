@@ -100,7 +100,9 @@ signal inv <-- in == 0 ? 0 : 1/in;
 [解决方案](https://github.com/darkforest-eth/circuits/blob/master/perlin/QuinSelector.circom)
 
 答：参考[解决方案](https://github.com/darkforest-eth/circuits/blob/master/perlin/QuinSelector.circom)，代码见[Selector.circom](/lecture2/Selector.circom). 思路是循环遍历下标，用i和index是否相等作选择器，如果i和index相等，选择器置1，不等置0。类似于下面这种思路：
+
 <img src="lecture2/img/for.png" width = "700" height = "350" alt="" align=center />
+
 最后再做累加。在[解决方案](https://github.com/darkforest-eth/circuits/blob/master/perlin/QuinSelector.circom)中先要求index必须在范围[0,nChoices)。
 ```circom
 // Ensure that index < choices
@@ -148,7 +150,9 @@ component comp = CompConstant(10944121435919637611123202872628637544274182200208
 ```
 
 如果使用LessThan来解决这个问题，思路是类似这种：
+
 <img src="lecture2/img/lessthan.png" width = "700" height = "350" alt="" align=center />
+
 这里就是`y = in - p/2 + 2^253`，y二进制化取最高位，如果为1就表示`in`负数，如果为1就表示`in`是非负数。但是在实际运算中，LessThan中的代码：
 ```circom
 n2b.in <== in[0]+ (1<<n) - in[1];
