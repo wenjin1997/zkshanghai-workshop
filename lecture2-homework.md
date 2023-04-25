@@ -125,6 +125,37 @@ lessThan.out === 1;
 
 - **理解检查**：为什么我们不能只使用 LessThan 或上一个练习中的比较器电路之一？
 
+答：代码见[IsNegative.circom](/lecture2/IsNegative.circom).
+
+```circom
+template IsNegative() {
+    signal input in;
+    signal output out;
+
+    var p = 21888242871839275222246405745257275088548364400416034343698204186575808495617;
+    // (p - 1) \ 2 = 10944121435919637611123202872628637544274182200208017171849102093287904247808
+    component num2bits = Num2Bits(254);
+    component compconstant = CompConstant((p - 1) \ 2);
+    num2bits.in <== in;
+    compconstant.in <== num2bits.out; 
+    out <== compconstant.out;
+
+}
+```
+这里的`component compconstant = CompConstant((p - 1) \ 2);`中ComConstant参数是计算出的结果，需要注意这里应该输入`(p - 1) \ 2`。如果是`p \ 2`，由于在Circom中运算都会进行模p操作，那么`p mod p = 0`，其实得到的结果为0。而`p`是素数，因此`(p - 1) \ 2`计算的就是p/2的值。也可以像[解决方案](https://github.com/iden3/circomlib/blob/master/circuits/sign.circom#L23)中那样直接将这个值作为ComConstant的参数。
+```circom
+component comp = CompConstant(10944121435919637611123202872628637544274182200208017171849102093287904247808);
+```
+
+如果使用LessThan来解决这个问题，思路是类似这种：
+<img src="lecture2/img/lessthan.png" width = "700" height = "350" alt="" align=center />
+这里就是`y = in - p/2 + 2^253`，y二进制化取最高位，如果为1就表示`in`负数，如果为1就表示`in`是非负数。但是在实际运算中，LessThan中的代码：
+```circom
+n2b.in <== in[0]+ (1<<n) - in[1];
+```
+实际上要进行模p运算再赋值([Circom官方文档](https://docs.circom.io/circom-language/basic-operators/#arithmetic-operators)说明了这点)，真实计算的是`y = in - p/2 + 2^253 mod p`。如果`in`在[0, p/2),`y = in - p/2 + 2^253 mod p = 0`。但如果`in`在(p/2, p-1]，就不一定为1了。因为`in - p/2 + 2^253`可能会超过`p`，模p之后二进制的最高位就不再保持为1，最后会得到结果0。
+
+因此在与非常大的数进行比较时，尤其是超过p/2的数，应该逐位比较，小心使用直接加减运算，因为在电路中暗含了模p操作。
 ### 少于 LessThan
 
 - 参数：无
@@ -139,6 +170,9 @@ lessThan.out === 1;
 
 [解决方案（扩展1）](https://github.com/iden3/circomlib/blob/master/circuits/comparators.circom#L89)
 
+答：小于代码见[LessThan.circom](/lecture2/LessThan.circom). 扩展2代码见[Compare.circom](/lecture2/Compare.circom).
+
+小于等于或者大于等于就用`out <== n2b.out[n];`，因为等于情况下为0，应该直接输出1，也就是2^n的二进制表达最高位。小于或者大于用`out <== 1 - n2b.out[n];`，等于时反转一下，输出0。`n2b.in <== in[0] - in[1] + (2**n); `就看是大于还是小于了。
 ### 整数除法 IntegerDivide
 
 注意：这个电路非常难！
@@ -153,6 +187,18 @@ lessThan.out === 1;
     
 
 [解决方案](https://github.com/darkforest-eth/circuits/blob/master/perlin/perlin.circom#L44)（忽略第二个参数SQRT_P，这是无关紧要的）
+
+答：除数和被除数均为正数，代码见[IntegerDivide.circom](/lecture2/IntegerDivide.circom). 思路是
+
+(a) 先限制`dividend`和`divisor`最多为`nbits`位.
+
+(b) 限制除数`divisor`不能为0.
+
+(c) 计算 `商 <-- 被除数 \ 除数`，计算 `余数 <== 被除数 - 商 * 除数`。
+
+(d) 检查计算得到的余数范围是否在`[0, 除数)`之间。
+
+(e) 约束计算 `被除数 === 除数 * 商 + 余数` 正确。
 
 ### 排序 Sort 【可选】
 
