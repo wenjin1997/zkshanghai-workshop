@@ -4,7 +4,7 @@
 
 答：我们知道在Setup阶段的$\tau$值，原来的三个步骤：
 
-Setup($1^\lambda,d$) $\rightarrow srs$, srs =(ck,vk)=($\{[\tau^i]_1\}_{i=0}^{d-1}$,$[\tau]_2$).
+$Setup(1^\lambda,d) \rightarrow srs, srs =(ck,vk)=(\{[\tau^i]_1\}_{i=0}^{d-1},[\tau]_2)$.
 
 $Commit(ck;f(X)) \rightarrow C, f(X) = \sum_{i=0}^{n-1}f_iX^i, C = \sum_{i=0}^{n-1}[f_i][\tau^i]_1=[f(\tau)]_1$
 
@@ -15,15 +15,17 @@ a) Prover 计算$q(X)=\frac{f(X)-y}{X-x}$, 发送证明$\pi = [q(\tau)]_1$;
 b) Verifier 验证$e(C-[y]_1, H) \overset{\text{?}}{=} e(\pi,[\tau]_2-[x]_2)$
 
 如今，伪造者并不知道多项式$f(X)$，因此不能计算出$y$，对于一个伪造的$y'$（也就是$f(x) \neq y'$），想要通过发送证明$\pi_{Fake}$通过验证。现在伪造者想要验证者通过验证
-
 $$
 e(\pi_{Fake},[\tau]_2-[x]_2) = e(C-[y']_1, H)$$
+
 $$
 \Rightarrow e(\pi_{Fake}, H)^{\tau - x} = e(C-[y']_1, H)
 $$
+
 $$
 \Rightarrow e(\pi_{Fake}, H) = e(C-[y']_1, H)^{\frac{1}{\tau - x}}
 $$
+
 $$
 \Rightarrow \pi_{Fake} = (C-[y']_1)^{\frac{1}{\tau - x}}
 $$
@@ -60,7 +62,7 @@ q(X)=\frac{p(X)-I(X)}{g(X)}
 $$
 由于$p(X)$也能整除$g(X)$，因此$q(X)$能整除$g(X)$.具体承诺方案如下：
 
-Setup($1^\lambda,d$) $\rightarrow srs$, $srs =(ck,vk)=(\{[\tau^i]_1\}_{i=0}^{d-1},[\tau]_2)$.
+$Setup(1^\lambda,d) \rightarrow srs, srs =(ck,vk)=(\{[\tau^i]_1\}_{i=0}^{d-1},[\tau]_2)$.
 
 $Commit(ck;f(X)) \rightarrow C, p(X) = \sum_{i=0}^{n-1}p_iX^i, C = \sum_{i=0}^{n-1}[p_i][\tau^i]_1=[p(\tau)]_1$
 
