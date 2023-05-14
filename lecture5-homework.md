@@ -4,7 +4,7 @@
 
 答：我们知道在Setup阶段的$\tau$值，原来的三个步骤：
 
-Setup($1^\lambda,d$) $\rightarrow srs$, $srs = (ck, vk) = (\{[\tau ^i ]_1\}_{i=0}^{d-1}, [\tau]_2)$.
+Setup($1^\lambda,d$) $\rightarrow srs$, $srs =(ck,vk)=(\{[\tau^i]_1\}_{i=0}^{d-1},[\tau]_2)$.
 
 $Commit(ck;f(X)) \rightarrow C, f(X) = \sum_{i=0}^{n-1}f_iX^i, C = \sum_{i=0}^{n-1}[f_i][\tau^i]_1=[f(\tau)]_1$
 
@@ -15,12 +15,14 @@ a) Prover 计算$q(X)=\frac{f(X)-y}{X-x}$, 发送证明$\pi = [q(\tau)]_1$;
 b) Verifier 验证$e(C-[y]_1, H) \overset{\text{?}}{=} e(\pi,[\tau]_2-[x]_2)$
 
 如今，伪造者并不知道多项式$f(X)$，因此不能计算出$y$，对于一个伪造的$y'$（也就是$f(x) \neq y'$），想要通过发送证明$\pi_{Fake}$通过验证。现在伪造者想要验证者通过验证
+
 $$
 e(\pi_{Fake},[\tau]_2-[x]_2) = e(C-[y']_1, H)\\
 \Rightarrow e(\pi_{Fake}, H)^{\tau - x} = e(C-[y']_1, H)\\
 \Rightarrow e(\pi_{Fake}, H) = e(C-[y']_1, H)^{\frac{1}{\tau - x}}\\
 \Rightarrow \pi_{Fake} = (C-[y']_1)^{\frac{1}{\tau - x}}
 $$
+
 由此伪造出证明$\pi_{Fake}$.
 
 2. 从 $KZG$ 多项式承诺方案构造一个**向量承诺方案**。 （提示：对于向量 $m=\left(m_{1}, \ldots, m_{q}\right)$，是否存在一个“插值多项式”$I(X)$ 使得 $I\left(x_{i}\right)=y_{i}$？）
@@ -38,6 +40,7 @@ $$
 接着，KZG对该多项式$f(X)$进行承诺就可以了。
 
 如果证明一个元素，Merkle树需要$O(\log_2n)$大小来证明，而这里可以看到只需要$O(1)$就可以。论文[Verkle trees]( https://math.mit.edu/research/highschool/primes/materials/2018/Kuszmaul.pdf)中给出了与Merkle树证明大小的比较：
+
 <img src="lecture5/img/VerkleTree.png" alt="" align=center />
 
 3. $KZG$ 多项式承诺方案对关系 $p(x)=$ $y$ 进行披露证明 $\pi$。 你能扩展这个方案来产生一个多重证明 $\pi$，让我们相信 $p\left(x_{i}\right)=y_{i}$ 对于点列表和评估 $\left(x_{i }, y_{i}\right)$ ？ （提示：假设您有一个插值多项式 $I(X)$ 使得 $I\left(x_{i}\right)=y_{i}$）。
@@ -52,7 +55,7 @@ q(X)=\frac{p(X)-I(X)}{g(X)}
 $$
 由于$p(X)$也能整除$g(X)$，因此$q(X)$能整除$g(X)$.具体承诺方案如下：
 
-Setup($1^\lambda,d$) $\rightarrow srs$, $srs = (ck, vk) = (\{[\tau ^i ]_1\}_{i=0}^{d-1}, [\tau]_2)$.
+Setup($1^\lambda,d$) $\rightarrow srs$, $srs =(ck,vk)=(\{[\tau^i]_1\}_{i=0}^{d-1},[\tau]_2)$.
 
 $Commit(ck;f(X)) \rightarrow C, p(X) = \sum_{i=0}^{n-1}p_iX^i, C = \sum_{i=0}^{n-1}[p_i][\tau^i]_1=[p(\tau)]_1$
 
