@@ -44,7 +44,7 @@ $$
 
 答：先构造一个拉格朗日插值多项式$I(X)$ 使得 $I\left(x_{i}\right)=y_{i}(i=0,\cdots, k-1)$，根据插值公式得
 $$
-I(X)=\sum_{i=0}^{k-1}y_i \prod_{j=0\\j\neq i}^{k-1}\frac{X-x_j}{x_i-x_j}
+I(X)=\sum_{i=0}^{k-1}y_i \prod_{j=0,j\neq i}^{k-1}\frac{X-x_j}{x_i-x_j}
 $$
 则$I(X)$的因子有$(X-x_1), \cdots, (X-x_{k-1})$，将它们相乘得到零多项式$g(X)=(X-x_1)\cdot (X-x_2) \cdots (X-x_{k-1})$。构造商多项式
 $$
