@@ -32,4 +32,5 @@
 $$ 
 \mathcal{L_1}(X) \cdot (Z^{next} \cdot (B + \gamma) - Z \cdot (A + \gamma)) = 0
 $$
+
 当$i = 1$时，$\mathcal{L_1}(X) = 1$，就会检查括号里的约束$Z^{next} \cdot (B + \gamma) - Z \cdot (A + \gamma)$是否为0；当$i \neq 0$时，$\mathcal{L_1}(X) = 1$，不用检查大括号里的约束，自然满足等式为0。因此就实现了仅在行$i=1$上应用RAP的多重集合相等性检查的约束。
