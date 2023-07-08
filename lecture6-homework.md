@@ -22,9 +22,9 @@
 * $f_3(X_1,X_2,X_3,X_1^{next},X_2^{next},X_3^{next}) = 21 - (8 + 13) = 0$.
 
 
-练习2：你能写一个仅在行 $i=1$ 上应用RAP的多重集合相等性检查的约束吗？（提示：当 $i=1$ 时， $\mathcal{L}_{1}(X)=1$ ，否则为0; 因此只需要在行$i=1$上强制执行一个形如 $\mathcal{L}_{1}(X) \cdot f(X)$ 的约束。）
+练习2：你能写一个仅在行 $i=1$ 上应用RAP的多重集合相等性检查的约束吗？（提示：当 $i=1$ 时， $\mathcal{L}_{1}(X)=1$ ，否则为0; 因此只需要在行 $i=1$ 上强制执行一个形如 $\mathcal{L}_{1}(X) \cdot f(X)$ 的约束。）
 
-答：根据提示，在课程中讲到的多重集合相等性检查基础上，左乘$\mathcal{L}_{1}(X)$。
+答：根据提示，在课程中讲到的多重集合相等性检查基础上，左乘 $\mathcal{L}_{1}(X)$ 。
 
 <img src="lecture6/img/RAP.png" width = "500" height = "300" alt="" align=center />
 
@@ -36,4 +36,4 @@ $$
 \mathcal{L_1}(X) \cdot (Z^{next} \cdot (B + \gamma) - Z \cdot (A + \gamma)) = 0
 $$
 
-当$i = 1$时，$\mathcal{L_1}(X) = 1$，就会检查括号里的约束$Z^{next} \cdot (B + \gamma) - Z \cdot (A + \gamma)$是否为0；当$i \neq 0$时，$\mathcal{L_1}(X) = 1$，不用检查大括号里的约束，自然满足等式为0。因此就实现了仅在行$i=1$上应用RAP的多重集合相等性检查的约束。
+当 $i = 1$ 时， $\mathcal{L_1}(X) = 1$ ，就会检查括号里的约束 $Z^{next} \cdot (B + \gamma) - Z \cdot (A + \gamma)$是否为0；当 $i \neq 0$ 时， $\mathcal{L_1}(X) = 1$ ，不用检查大括号里的约束，自然满足等式为0。因此就实现了仅在行 $i=1$ 上应用RAP的多重集合相等性检查的约束。
