@@ -28,7 +28,7 @@
 
 <img src="lecture6/img/RAP.png" width = "500" height = "300" alt="" align=center />
 
-定义 $\mathcal{L}_1(X)=\prod_{x_j \neq x_1} \frac{X - x_j}{x_1 - x_j}$ ，在此例中 $\mathcal{L}_1(X)= \frac{X-x_2}{x_1 - x_2} \cdot \frac{X-x_3}{x_1 - x_3} \cdot \frac{X - x_4}{x_1 - x_4}$ .
+定义 $\mathcal{L}_1(X)=\prod_{x_j \neq x_1} \frac{X - x_j}{x_1 - x_j}$ ,在此例中 $\mathcal{L}_1(X)= \frac{X-x_2}{x_1 - x_2} \cdot \frac{X-x_3}{x_1 - x_3} \cdot \frac{X - x_4}{x_1 - x_4}$ .
 
 约束多项式与 $z$ 列的构造不变，检查约束为：
 
